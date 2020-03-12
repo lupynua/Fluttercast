@@ -46,8 +46,10 @@ class WeatherModel {
       temperature: weather.temperature.celsius,
       tempMin: weather.tempMin.celsius,
       tempMax: weather.tempMax.celsius,
-      sunrise: weather.sunrise.millisecondsSinceEpoch,
-      sunset: weather.sunset.millisecondsSinceEpoch,
+      sunrise:
+          weather.sunrise == null ? 0 : weather.sunrise.millisecondsSinceEpoch,
+      sunset:
+          weather.sunset == null ? 0 : weather.sunset.millisecondsSinceEpoch,
       date: weather.date.millisecondsSinceEpoch,
     );
   }
