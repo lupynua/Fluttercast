@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttercast/extentions/icon_helper.dart';
 import 'package:fluttercast/main.dart';
+import 'package:fluttercast/models/weather_model.dart';
 import 'package:intl/intl.dart';
-import 'package:weather/weather.dart';
 
 import 'forecast_item.dart';
 
@@ -12,7 +12,7 @@ class ForecastList extends StatelessWidget {
     @required this.forecast,
   }) : super(key: key);
 
-  final List<Weather> forecast;
+  final List<WeatherModel> forecast;
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +37,10 @@ class ForecastList extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 7),
             child: Center(
                 child: ForecastItem(
-              DateFormat('E, HH:mm').format(item.date),
-              item.temperature.celsius.round().toString() + "°",
-              iconData: IconHelper.getIconData(item.weatherIcon),
+              DateFormat('E, HH:mm')
+                  .format(DateTime.fromMillisecondsSinceEpoch(item.date)),
+              item.temperature.round().toString() + "°",
+              iconData: IconHelper.getIconData(item.icon),
             )),
           );
         },
