@@ -57,81 +57,78 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
           ],
         ),
         actions: <Widget>[
-          FlatButton.icon(
-              onPressed: () {
-                Navigator.of(context).pushNamed("/settings");
-              },
-              icon: Icon(
-                Icons.settings,
-                color: accentColor,
-              ),
-              label: Text(
-                "Settings",
-                style: TextStyle(color: accentColor),
-              ))
+          IconButton(
+            onPressed: () {
+              _refreshWeather();
+            },
+            icon: Icon(
+              Icons.refresh,
+              color: accentColor,
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed("/settings");
+            },
+            icon: Icon(
+              Icons.settings,
+              color: accentColor,
+            ),
+          ),
         ],
       ),
       backgroundColor: primaryColor,
-      body: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          return RefreshIndicator(
-            onRefresh: _refreshWeather,
-            child: SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                child: FadeTransition(
-                  opacity: _animation,
-                  child: BlocBuilder(
-                    bloc: _weatherBloc,
-                    builder: (_, WeatherState state) {
-                      if (state is LoadedState) {
-                        _animationController.reset();
-                        _animationController.forward();
-                        return WeatherWidget(weatherData: state.weatherData);
-                      } else if (state is LoadingState) {
-                        print("LOADING");
-                        _animationController.reset();
-                        _animationController.forward();
-                        return Center(
-                          child: SizedBox(
-                            width: 75,
-                            height: 75,
-                            child: CircularProgressIndicator(
-                              backgroundColor: buttonColor,
-                            ),
-                          ),
-                        );
-                      } else {
-                        print("ERROR");
-                        _animationController.reset();
-                        _animationController.forward();
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              Icons.error_outline,
-                              color: buttonColor,
-                              size: 75,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "Can`t fetch current location.\n Please check permission in system settings",
-                              style:
-                                  TextStyle(color: buttonColor, fontSize: 16),
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                        );
-                      }
-                    },
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
+      body: Material(
+        child: Container(
+          constraints: BoxConstraints.expand(),
+          decoration: BoxDecoration(color: primaryColor),
+          child: FadeTransition(
+            opacity: _animation,
+            child: BlocBuilder(
+                bloc: _weatherBloc,
+                builder: (_, WeatherState state) {
+                  print("$state");
+                  if (state is LoadedState) {
+                    _animationController.reset();
+                    _animationController.forward();
+                    return WeatherWidget(weatherData: state.weatherData);
+                  } else if (state is LoadingState) {
+                    _animationController.reset();
+                    _animationController.forward();
+                    return Center(
+                      child: SizedBox(
+                        width: 75,
+                        height: 75,
+                        child: CircularProgressIndicator(
+                          backgroundColor: buttonColor,
+                        ),
+                      ),
+                    );
+                  } else {
+                    _animationController.reset();
+                    _animationController.forward();
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.error,
+                          color: buttonColor,
+                          size: 75,
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "Can`t fetch current location.\n Please check permission in system settings",
+                          style: TextStyle(color: buttonColor, fontSize: 16),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    );
+                  }
+                }),
+          ),
+        ),
       ),
     );
   }

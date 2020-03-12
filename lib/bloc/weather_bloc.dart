@@ -1,3 +1,4 @@
+import 'package:fluttercast/extentions/icon_helper.dart';
 import 'package:fluttercast/weather_data.dart';
 import 'package:meta/meta.dart';
 
@@ -31,12 +32,11 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
 
         final WeatherData weatherData = WeatherData(
             weather: currentWeather,
-            iconData: weatherRepository.getIconData(currentWeather.weatherIcon),
+            iconData: IconHelper.getIconData(currentWeather.weatherIcon),
             forecast: forecast);
 
         yield LoadedState(weatherData: weatherData);
       } catch (exception) {
-        print("WTF" + exception);
         yield ErrorState(error: exception);
       }
     } else {

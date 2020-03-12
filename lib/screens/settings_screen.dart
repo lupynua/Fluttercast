@@ -30,67 +30,61 @@ class SettingsScreen extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(8)),
-                color: AppStateContainer.of(context)
-                    .theme
-                    .accentColor
-                    .withOpacity(0.1),
-              ),
-              padding: EdgeInsets.only(left: 10, right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    "Dark",
-                    style: TextStyle(
-                        color: AppStateContainer.of(context).theme.accentColor),
-                  ),
-                  Radio(
-                    value: Themes.darkThemeCode,
-                    groupValue: AppStateContainer.of(context).themeCode,
-                    onChanged: (value) {
-                      AppStateContainer.of(context).updateTheme(value);
-                    },
-                    activeColor: buttonColor,
-                  )
-                ],
-              ),
-            ),
+            _buildSettingsEntry(
+                label: "Dark",
+                radioValue: Themes.darkThemeCode,
+                groupValue: AppStateContainer.of(context).themeCode,
+                onChanged: (value) =>
+                    AppStateContainer.of(context).updateTheme(value),
+                color: accentColor,
+                activeColor: buttonColor),
             Divider(
               color: primaryColor,
               height: 2,
             ),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(8)),
-                color: AppStateContainer.of(context)
-                    .theme
-                    .accentColor
-                    .withOpacity(0.1),
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    "Light",
-                    style: TextStyle(color: accentColor),
-                  ),
-                  Radio(
-                    value: Themes.lightThemeCode,
-                    groupValue: AppStateContainer.of(context).themeCode,
-                    onChanged: (value) {
-                      AppStateContainer.of(context).updateTheme(value);
-                    },
-                    activeColor: buttonColor,
-                  )
-                ],
-              ),
-            ),
+            _buildSettingsEntry(
+                label: "Light",
+                radioValue: Themes.lightThemeCode,
+                groupValue: AppStateContainer.of(context).themeCode,
+                onChanged: (value) =>
+                    AppStateContainer.of(context).updateTheme(value),
+                color: accentColor,
+                activeColor: buttonColor),
           ],
         ),
+      ),
+    );
+  }
+
+  Container _buildSettingsEntry(
+      {String label,
+      int radioValue,
+      int groupValue,
+      Function onChanged,
+      Color color,
+      Color activeColor}) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+        color: color.withOpacity(0.1),
+      ),
+      padding: EdgeInsets.only(left: 10, right: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(
+            label,
+            style: TextStyle(color: color),
+          ),
+          Radio(
+            value: radioValue,
+            groupValue: groupValue,
+            onChanged: (value) {
+              onChanged(value);
+            },
+            activeColor: activeColor,
+          )
+        ],
       ),
     );
   }
