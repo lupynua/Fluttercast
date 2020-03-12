@@ -37,7 +37,7 @@ class ForecastList extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 7),
             child: Center(
                 child: ForecastItem(
-              DateFormat('E, ha').format(item.date),
+              DateFormat('E, HH:mm').format(item.date),
               item.temperature.celsius.round().toString() + "°",
               iconData: IconHelper.getIconData(item.weatherIcon),
             )),
