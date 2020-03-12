@@ -2,6 +2,11 @@
 
 Flutter Demo Weather Application
 
+## Features
+1. Simple yet beautiful UI
+2. Offline mode
+3. Dark theme
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
