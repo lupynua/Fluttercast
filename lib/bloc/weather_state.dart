@@ -11,14 +11,6 @@ abstract class WeatherState extends Equatable {
   List<Object> get props => properties;
 }
 
-class ErrorState extends WeatherState {
-  final String error;
-
-  ErrorState({@required this.error})
-      : assert(error != null),
-        super([error]);
-}
-
 class EmptyState extends WeatherState {
   EmptyState() : super([]);
 }

@@ -32,10 +32,11 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
 
         yield LoadedState(weatherData: weatherData);
       } catch (exception) {
-        yield ErrorState(error: exception);
+        print(exception);
+        yield EmptyState();
       }
     } else {
-      yield ErrorState(error: "Error");
+      yield EmptyState();
     }
   }
 }

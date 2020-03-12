@@ -119,7 +119,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                           height: 10,
                         ),
                         Text(
-                          "Can`t fetch current location.\n Please check permission in system settings",
+                          "Can`t fetch current location.\n Please check your Internet connection or location permission",
                           style: TextStyle(color: buttonColor, fontSize: 16),
                           textAlign: TextAlign.center,
                         ),
