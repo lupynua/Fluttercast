@@ -25,7 +25,8 @@ class ForecastList extends StatelessWidget {
         color: primaryDarkColor,
         borderRadius: BorderRadius.all(Radius.circular(8)),
       ),
-      height: 125,
+      width: 400,
+      height: 132,
       child: ListView.builder(
         padding: EdgeInsets.symmetric(horizontal: 5),
         scrollDirection: Axis.horizontal,

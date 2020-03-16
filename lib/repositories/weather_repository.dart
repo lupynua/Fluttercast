@@ -10,7 +10,6 @@ class WeatherRepository {
   Future<WeatherModel> getCurrentWeather() async {
     try {
       var weather = await weatherStation.currentWeather();
-      print(weather);
       if (weather == null) {
         return await SQLiteDbProvider.db.getWeather();
       }

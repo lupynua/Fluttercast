@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttercast/screens/main_screen.dart';
 import 'package:fluttercast/screens/routes.dart';
@@ -14,7 +13,6 @@ void main() {
 class FlutterCast extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return MaterialApp(
         title: 'FlutterCast',
         theme: AppStateContainer.of(context).theme,
