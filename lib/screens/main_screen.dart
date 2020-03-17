@@ -58,23 +58,14 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
           ],
         ),
         actions: <Widget>[
-          IconButton(
-            onPressed: () {
-              _refreshWeather();
-            },
-            icon: Icon(
-              Icons.refresh,
-              color: accentColor,
-            ),
-          ),
-          IconButton(
+          FlatButton.icon(
             onPressed: () {
               Navigator.of(context).pushNamed("/settings");
             },
             icon: Icon(
               Icons.settings,
               color: accentColor,
-            ),
+            ), label: Text("Settings", style: TextStyle(color: accentColor, fontSize: 16),),
           ),
         ],
       ),
@@ -92,7 +83,17 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                   if (state is LoadedState) {
                     _animationController.reset();
                     _animationController.forward();
-                    return WeatherWidget(weatherData: state.weatherData);
+                    return RefreshIndicator(
+                      color: primaryDarkColor,
+                      backgroundColor: buttonColor,
+                      onRefresh: _refreshWeather,
+                      child: SingleChildScrollView(
+                        physics: AlwaysScrollableScrollPhysics(),
+                        child: WeatherWidget(
+                          weatherData: state.weatherData,
+                        ),
+                      ),
+                    );
                   } else if (state is LoadingState) {
                     _animationController.reset();
                     _animationController.forward();

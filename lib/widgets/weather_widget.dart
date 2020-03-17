@@ -21,10 +21,6 @@ class WeatherWidget extends StatelessWidget {
   }
 
   Container _buildCurrentWeatherCard({BuildContext context}) {
-    final orientation = MediaQuery.of(context).orientation;
-    final iconSize = orientation == Orientation.portrait ? 100.0 : 50.0;
-    final textSize = orientation == Orientation.portrait ? 100.0 : 56.0;
-
     Color accentColor = AppStateContainer.of(context).theme.accentColor;
     Color primaryDarkColor =
         AppStateContainer.of(context).theme.primaryColorDark;
@@ -57,7 +53,7 @@ class WeatherWidget extends StatelessWidget {
                 child: _buildIcon(
                     icon: IconHelper.getIconData(weatherData.weather.icon),
                     color: accentColor,
-                    size: iconSize),
+                    size: 100),
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -68,7 +64,7 @@ class WeatherWidget extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12.0),
                     child: _buildText(
-                        text: tempCurrent, color: accentColor, size: textSize),
+                        text: tempCurrent, color: accentColor, size: 100),
                   ),
                 ],
               )
@@ -165,7 +161,7 @@ class WeatherWidget extends StatelessWidget {
   }
 
   Container _buildPortraitUI(BuildContext context) {
-    var lastSync = DateFormat.yMMMMd().add_jms().format(
+    var lastSync = DateFormat.yMMMMd().add_Hms().format(
         DateTime.fromMillisecondsSinceEpoch(weatherData.weather.syncDate));
     return Container(
       child: Column(
@@ -185,7 +181,7 @@ class WeatherWidget extends StatelessWidget {
   }
 
   Container _buildLandscapeUI(BuildContext context) {
-    var lastSync = DateFormat.yMMMMd().add_jms().format(
+    var lastSync = DateFormat.yMMMMd().add_Hms().format(
         DateTime.fromMillisecondsSinceEpoch(weatherData.weather.syncDate));
 
     return Container(
@@ -193,26 +189,25 @@ class WeatherWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           _buildCurrentWeatherCard(context: context),
-          SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  height: 10,
-                ),
-                ForecastList(
-                  forecast: weatherData.forecast,
-                ),
-                _buildAdditionalInfoCard(context),
-                _buildText(
-                    text: "Last sync: $lastSync",
-                    size: 14,
-                    color: AppStateContainer.of(context).theme.buttonColor),
-                SizedBox(
-                  height: 10,
-                ),
-              ],
-            ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(
+                height: 10,
+              ),
+              ForecastList(
+                forecast: weatherData.forecast,
+              ),
+              _buildAdditionalInfoCard(context),
+              _buildText(
+                  text: "Last sync: $lastSync",
+                  size: 14,
+                  color:
+                      AppStateContainer.of(context).theme.buttonColor),
+              SizedBox(
+                height: 10,
+              ),
+            ],
           ),
         ],
       ),
