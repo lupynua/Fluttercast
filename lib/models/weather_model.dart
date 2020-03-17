@@ -1,16 +1,9 @@
 import 'package:weather/weather.dart';
 
 class WeatherModel {
-  final int id;
-  final String icon;
-  final String location;
-  final String weather;
-  final double temperature;
-  final double tempMin;
-  final double tempMax;
-  final int sunrise;
-  final int sunset;
-  final int date;
+  final String icon, location, weather;
+  final double temperature, humidity, windSpeed;
+  final int id, sunrise, sunset, date, syncDate;
 
   static final columns = [
     "id",
@@ -18,11 +11,12 @@ class WeatherModel {
     "location",
     "weather",
     "temperature",
-    "temp_min",
-    "temp_max",
+    "humidity",
+    "wind_speed",
     "sunrise",
     "sunset",
-    "date"
+    "date",
+    "sync_date"
   ];
 
   WeatherModel(
@@ -31,42 +25,44 @@ class WeatherModel {
       this.location,
       this.weather,
       this.temperature,
-      this.tempMin,
-      this.tempMax,
+      this.humidity,
+      this.windSpeed,
       this.sunrise,
       this.sunset,
-      this.date});
+      this.date,
+      this.syncDate});
 
   factory WeatherModel.fromWeather(Weather weather, int id) {
     return WeatherModel(
-      id: id,
-      icon: weather.weatherIcon,
-      location: weather.areaName,
-      weather: weather.weatherMain,
-      temperature: weather.temperature.celsius,
-      tempMin: weather.tempMin.celsius,
-      tempMax: weather.tempMax.celsius,
-      sunrise:
-          weather.sunrise == null ? 0 : weather.sunrise.millisecondsSinceEpoch,
-      sunset:
-          weather.sunset == null ? 0 : weather.sunset.millisecondsSinceEpoch,
-      date: weather.date.millisecondsSinceEpoch,
-    );
+        id: id,
+        icon: weather.weatherIcon,
+        location: weather.areaName,
+        weather: weather.weatherMain,
+        temperature: weather.temperature.celsius,
+        humidity: weather.humidity,
+        windSpeed: weather.windSpeed,
+        sunrise: weather.sunrise == null
+            ? 0
+            : weather.sunrise.millisecondsSinceEpoch,
+        sunset:
+            weather.sunset == null ? 0 : weather.sunset.millisecondsSinceEpoch,
+        date: weather.date.millisecondsSinceEpoch,
+        syncDate: DateTime.now().millisecondsSinceEpoch);
   }
 
   factory WeatherModel.fromMap(Map<String, dynamic> data) {
     return WeatherModel(
-      id: data['id'],
-      icon: data['icon'],
-      location: data['location'],
-      weather: data['weather'],
-      temperature: data['temperature'],
-      tempMin: data['temp_min'],
-      tempMax: data['temp_max'],
-      sunrise: data['sunrise'],
-      sunset: data['sunset'],
-      date: data['date'],
-    );
+        id: data['id'],
+        icon: data['icon'],
+        location: data['location'],
+        weather: data['weather'],
+        temperature: data['temperature'],
+        humidity: data['temp_min'],
+        windSpeed: data['temp_max'],
+        sunrise: data['sunrise'],
+        sunset: data['sunset'],
+        date: data['date'],
+        syncDate: data['sync_date']);
   }
 
   Map<String, dynamic> toMap() => {
@@ -75,10 +71,11 @@ class WeatherModel {
         "location": location,
         "weather": weather,
         "temperature": temperature,
-        "temp_min": tempMin,
-        "temp_max": tempMax,
+        "humidity": humidity,
+        "wind_speed": windSpeed,
         "sunrise": sunrise,
         "sunset": sunset,
         "date": date,
+        "sync_date": syncDate,
       };
 }

@@ -62,7 +62,9 @@ class WeatherWidget extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12.0),
                     child: _buildText(
@@ -102,8 +104,8 @@ class WeatherWidget extends StatelessWidget {
     Color primaryDarkColor =
         AppStateContainer.of(context).theme.primaryColorDark;
 
-    String tempMin = weatherData.weather.tempMin.round().toString() + "°";
-    String tempMax = weatherData.weather.tempMax.round().toString() + "°";
+    String humidity = weatherData.weather.humidity.toString() + "%";
+    String windSpeed = weatherData.weather.windSpeed.toString() + "m/s";
     String sunrise = DateFormat("HH:mm").format(
         DateTime.fromMillisecondsSinceEpoch(weatherData.weather.sunrise));
     String sunset = DateFormat("HH:mm").format(
@@ -111,81 +113,106 @@ class WeatherWidget extends StatelessWidget {
 
     return Container(
       width: 400,
-      padding: EdgeInsets.symmetric(vertical: 36),
+      padding: EdgeInsets.all(16),
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: primaryDarkColor,
         borderRadius: BorderRadius.all(Radius.circular(8)),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          _buildWeatherConditionColumn(
-              label: "MIN", data: tempMin, color: accentColor, size: 24),
-          SizedBox(
-            width: 20,
+          Column(
+            children: <Widget>[
+              _buildWeatherConditionColumn(
+                  label: "HUMIDITY",
+                  data: humidity,
+                  color: accentColor,
+                  size: 18),
+              _buildWeatherConditionColumn(
+                  label: "SUNRISE",
+                  data: sunrise,
+                  color: accentColor,
+                  size: 18),
+            ],
           ),
-          _buildWeatherConditionColumn(
-              label: "MAX", data: tempMax, color: accentColor, size: 24),
-          SizedBox(
-            width: 40,
+          Column(
+            children: <Widget>[
+              _buildWeatherConditionColumn(
+                  label: "WIND", data: windSpeed, color: accentColor, size: 18),
+              _buildWeatherConditionColumn(
+                  label: "SUNSET", data: sunset, color: accentColor, size: 18)
+            ],
           ),
-          _buildWeatherConditionColumn(
-              label: "SUNRISE", data: sunrise, color: accentColor, size: 24),
-          SizedBox(
-            width: 20,
-          ),
-          _buildWeatherConditionColumn(
-              label: "SUNSET", data: sunset, color: accentColor, size: 24),
         ],
       ),
     );
   }
 
-  Column _buildWeatherConditionColumn(
+  Container _buildWeatherConditionColumn(
       {String label, String data, double size, Color color}) {
-    return Column(
-      children: <Widget>[
-        _buildText(text: label, size: size, color: color),
-        _buildText(text: data, size: size, color: color),
-      ],
+    return Container(
+      padding: EdgeInsets.all(12),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          _buildText(text: label, size: size, color: color),
+          _buildText(text: data, size: size, color: color),
+        ],
+      ),
     );
   }
 
   Container _buildPortraitUI(BuildContext context) {
+    var lastSync = DateFormat.yMMMMd().add_jms().format(
+        DateTime.fromMillisecondsSinceEpoch(weatherData.weather.syncDate));
     return Container(
       child: Column(
         children: <Widget>[
           _buildCurrentWeatherCard(context: context),
-          _buildAdditionalInfoCard(context),
           ForecastList(
             forecast: weatherData.forecast,
           ),
+          _buildAdditionalInfoCard(context),
+          _buildText(
+              text: "Last sync: $lastSync",
+              size: 14,
+              color: AppStateContainer.of(context).theme.buttonColor),
         ],
       ),
     );
   }
 
   Container _buildLandscapeUI(BuildContext context) {
+    var lastSync = DateFormat.yMMMMd().add_jms().format(
+        DateTime.fromMillisecondsSinceEpoch(weatherData.weather.syncDate));
+
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           _buildCurrentWeatherCard(context: context),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(
-                height: 10,
-              ),
-              _buildAdditionalInfoCard(context),
-              ForecastList(
-                forecast: weatherData.forecast,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-            ],
+          SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  height: 10,
+                ),
+                ForecastList(
+                  forecast: weatherData.forecast,
+                ),
+                _buildAdditionalInfoCard(context),
+                _buildText(
+                    text: "Last sync: $lastSync",
+                    size: 14,
+                    color: AppStateContainer.of(context).theme.buttonColor),
+                SizedBox(
+                  height: 10,
+                ),
+              ],
+            ),
           ),
         ],
       ),

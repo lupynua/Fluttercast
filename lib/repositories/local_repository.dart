@@ -23,7 +23,7 @@ class SQLiteDbProvider {
     var documentsDirectory = await getApplicationDocumentsDirectory();
     var path = join(documentsDirectory.path, "WeatherDB.db");
 
-    return await openDatabase(path, version: 1, onOpen: (db) {},
+    return await openDatabase(path, version: 3, onOpen: (db) {},
         onCreate: (Database db, int version) async {
       await db.execute("CREATE TABLE $currentWeatherTable ("
           "id INTEGER PRIMARY KEY,"
@@ -31,11 +31,12 @@ class SQLiteDbProvider {
           "location TEXT,"
           "weather TEXT,"
           "temperature REAL,"
-          "temp_min REAL,"
-          "temp_max REAL,"
+          "humidity REAL,"
+          "wind_speed REAL,"
           "sunrise INTEGER,"
           "sunset INTEGER,"
-          "date INTEGER)");
+          "date INTEGER,"
+          "sync_date INTEGER)");
 
       await db.execute("CREATE TABLE $futureWeatherTable ("
           "id INTEGER PRIMARY KEY,"
@@ -43,11 +44,12 @@ class SQLiteDbProvider {
           "location TEXT,"
           "weather TEXT,"
           "temperature REAL,"
-          "temp_min REAL,"
-          "temp_max REAL,"
+          "humidity REAL,"
+          "wind_speed REAL,"
           "sunrise INTEGER,"
           "sunset INTEGER,"
-          "date INTEGER)");
+          "date INTEGER,"
+          "sync_date INTEGER)");
     });
   }
 
@@ -77,19 +79,20 @@ class SQLiteDbProvider {
     final db = await database;
 
     var result = await db.rawInsert(
-        "REPLACE Into $table (id, icon, location, weather, temperature, temp_min, temp_max, sunrise, sunset, date)"
-        " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        "REPLACE Into $table (id, icon, location, weather, temperature, humidity, wind_speed, sunrise, sunset, date, sync_date)"
+        " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [
           weather.id,
           weather.icon,
           weather.location,
           weather.weather,
           weather.temperature,
-          weather.tempMin,
-          weather.tempMax,
+          weather.humidity,
+          weather.windSpeed,
           weather.sunrise,
           weather.sunset,
-          weather.date
+          weather.date,
+          weather.syncDate
         ]);
 
     return result;

@@ -27,13 +27,14 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _weatherBloc = WeatherBloc(weatherRepository: widget.weatherRepository);
-    _fetchWeather().catchError((error) {
-      _weatherBloc.add(ErrorEvent());
-    });
     _animationController = AnimationController(
         duration: const Duration(milliseconds: 500), vsync: this);
     _animation =
         CurvedAnimation(parent: _animationController, curve: Curves.easeIn);
+
+    _fetchWeather().catchError((error) {
+      _weatherBloc.add(ErrorEvent());
+    });
   }
 
   @override

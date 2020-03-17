@@ -4,8 +4,8 @@ import 'package:fluttercast/repositories/local_repository.dart';
 import 'package:weather/weather.dart';
 
 class WeatherRepository {
-  static const String _apiKey = "7df955a2d1bd25efefc21b5dab13b856";
-  final WeatherStation weatherStation = new WeatherStation(_apiKey);
+  static const _apiKey = "7df955a2d1bd25efefc21b5dab13b856";
+  final weatherStation = new WeatherStation(_apiKey);
 
   Future<WeatherModel> getCurrentWeather() async {
     try {
