@@ -23,12 +23,12 @@ class Themes {
       },
     ),
     accentColor: Color(0xFFE9E9E9),
-    disabledColor: Colors.grey,
+    unselectedWidgetColor: Color(0xFFE9E9E9),
   );
 
   static final _light = ThemeData(
       primaryColorDark: Color(0xFFCCCCCC),
-      buttonColor: Color(0xFFC4682E),
+      buttonColor: Color(0xFFAE5E02),
       primarySwatch: MaterialColor(
         Color(0xFFE9E9E9).value,
         const <int, Color>{
@@ -45,7 +45,7 @@ class Themes {
         },
       ),
       accentColor: Color(0xFF212121),
-      disabledColor: Colors.blueGrey);
+      unselectedWidgetColor: Color(0xFF212121));
 
   static ThemeData getTheme(int code) {
     if (code == darkThemeCode) {

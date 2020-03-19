@@ -16,13 +16,14 @@ class ForecastList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color primaryDarkColor =
-        AppStateContainer.of(context).theme.primaryColorDark;
+    var buttonColor = AppStateContainer.of(context).theme.buttonColor;
+    var primaryDarkColor = AppStateContainer.of(context).theme.primaryColorDark;
 
     return Container(
       margin: EdgeInsets.all(10.0),
       decoration: BoxDecoration(
         color: primaryDarkColor,
+        border: Border.all(color: buttonColor.withOpacity(0.3), width: 2),
         borderRadius: BorderRadius.all(Radius.circular(8)),
       ),
       width: 400,

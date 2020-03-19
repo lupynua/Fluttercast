@@ -21,19 +21,19 @@ class WeatherWidget extends StatelessWidget {
   }
 
   Container _buildCurrentWeatherCard({BuildContext context}) {
-    Color accentColor = AppStateContainer.of(context).theme.accentColor;
-    Color primaryDarkColor =
-        AppStateContainer.of(context).theme.primaryColorDark;
+    var accentColor = AppStateContainer.of(context).theme.accentColor;
+    var buttonColor = AppStateContainer.of(context).theme.buttonColor;
+    var primaryDarkColor = AppStateContainer.of(context).theme.primaryColorDark;
 
-    String tempCurrent =
-        weatherData.weather.temperature.round().toString() + "°";
+    var tempCurrent = weatherData.weather.temperature.round().toString() + "°";
 
     return Container(
-      constraints: BoxConstraints.expand(width: 400, height: 360),
+      constraints: BoxConstraints.tightFor(width: 400, height: 324),
       padding: EdgeInsets.symmetric(vertical: 32),
-      margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+      margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: primaryDarkColor,
+        border: Border.all(color: buttonColor.withOpacity(0.3), width: 2),
         borderRadius: BorderRadius.all(Radius.circular(8)),
       ),
       child: Column(
@@ -96,23 +96,24 @@ class WeatherWidget extends StatelessWidget {
   }
 
   Container _buildAdditionalInfoCard(BuildContext context) {
-    Color accentColor = AppStateContainer.of(context).theme.accentColor;
-    Color primaryDarkColor =
-        AppStateContainer.of(context).theme.primaryColorDark;
+    var accentColor = AppStateContainer.of(context).theme.accentColor;
+    var buttonColor = AppStateContainer.of(context).theme.buttonColor;
+    var primaryDarkColor = AppStateContainer.of(context).theme.primaryColorDark;
 
-    String humidity = weatherData.weather.humidity.toString() + "%";
-    String windSpeed = weatherData.weather.windSpeed.toString() + "m/s";
-    String sunrise = DateFormat("HH:mm").format(
+    var humidity = weatherData.weather.humidity.toString() + "%";
+    var windSpeed = weatherData.weather.windSpeed.toString() + "m/s";
+    var sunrise = DateFormat("HH:mm").format(
         DateTime.fromMillisecondsSinceEpoch(weatherData.weather.sunrise));
-    String sunset = DateFormat("HH:mm").format(
+    var sunset = DateFormat("HH:mm").format(
         DateTime.fromMillisecondsSinceEpoch(weatherData.weather.sunset));
 
     return Container(
-      width: 400,
+      constraints: BoxConstraints.tightFor(width: 400),
       padding: EdgeInsets.all(16),
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: primaryDarkColor,
+        border: Border.all(color: buttonColor.withOpacity(0.3), width: 2),
         borderRadius: BorderRadius.all(Radius.circular(8)),
       ),
       child: Row(
@@ -166,6 +167,9 @@ class WeatherWidget extends StatelessWidget {
     return Container(
       child: Column(
         children: <Widget>[
+          SizedBox(
+            height: 10,
+          ),
           _buildCurrentWeatherCard(context: context),
           ForecastList(
             forecast: weatherData.forecast,
@@ -185,29 +189,29 @@ class WeatherWidget extends StatelessWidget {
         DateTime.fromMillisecondsSinceEpoch(weatherData.weather.syncDate));
 
     return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      child: Column(
         children: <Widget>[
-          _buildCurrentWeatherCard(context: context),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              SizedBox(
-                height: 10,
-              ),
-              ForecastList(
-                forecast: weatherData.forecast,
-              ),
-              _buildAdditionalInfoCard(context),
-              _buildText(
-                  text: "Last sync: $lastSync",
-                  size: 14,
-                  color:
-                      AppStateContainer.of(context).theme.buttonColor),
-              SizedBox(
-                height: 10,
+              _buildCurrentWeatherCard(context: context),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  ForecastList(
+                    forecast: weatherData.forecast,
+                  ),
+                  _buildAdditionalInfoCard(context),
+                ],
               ),
             ],
+          ),
+          _buildText(
+              text: "Last sync: $lastSync",
+              size: 14,
+              color: AppStateContainer.of(context).theme.buttonColor),
+          SizedBox(
+            height: 10,
           ),
         ],
       ),

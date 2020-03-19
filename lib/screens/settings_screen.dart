@@ -5,19 +5,21 @@ import 'package:fluttercast/themes.dart';
 class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Color primaryColor = AppStateContainer.of(context).theme.primaryColor;
-    Color accentColor = AppStateContainer.of(context).theme.accentColor;
-    Color buttonColor = AppStateContainer.of(context).theme.buttonColor;
+    var primaryColor = AppStateContainer.of(context).theme.primaryColor;
+    var primaryDarkColor = AppStateContainer.of(context).theme.primaryColorDark;
+    var accentColor = AppStateContainer.of(context).theme.accentColor;
+    var buttonColor = AppStateContainer.of(context).theme.buttonColor;
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: primaryColor,
+        backgroundColor: primaryDarkColor,
         title: Text("Settings"),
       ),
       body: Container(
         padding: EdgeInsets.all(10),
         color: primaryColor,
-        child: ListView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -36,11 +38,12 @@ class SettingsScreen extends StatelessWidget {
                 groupValue: AppStateContainer.of(context).themeCode,
                 onChanged: (value) =>
                     AppStateContainer.of(context).updateTheme(value),
-                color: accentColor,
+                color: primaryDarkColor,
+                accentColor: accentColor,
                 activeColor: buttonColor),
             Divider(
               color: primaryColor,
-              height: 2,
+              height: 4,
             ),
             _buildSettingsEntry(
                 label: "Light",
@@ -48,7 +51,8 @@ class SettingsScreen extends StatelessWidget {
                 groupValue: AppStateContainer.of(context).themeCode,
                 onChanged: (value) =>
                     AppStateContainer.of(context).updateTheme(value),
-                color: accentColor,
+                color: primaryDarkColor,
+                accentColor: accentColor,
                 activeColor: buttonColor),
           ],
         ),
@@ -62,11 +66,13 @@ class SettingsScreen extends StatelessWidget {
       int groupValue,
       Function onChanged,
       Color color,
+      Color accentColor,
       Color activeColor}) {
     return Container(
       decoration: BoxDecoration(
+        border: Border.all(color: activeColor.withOpacity(0.3), width: 2),
         borderRadius: BorderRadius.all(Radius.circular(8)),
-        color: color.withOpacity(0.1),
+        color: color,
       ),
       padding: EdgeInsets.only(left: 10, right: 10),
       child: Row(
@@ -74,7 +80,7 @@ class SettingsScreen extends StatelessWidget {
         children: <Widget>[
           Text(
             label,
-            style: TextStyle(color: color),
+            style: TextStyle(color: accentColor),
           ),
           Radio(
             value: radioValue,
@@ -83,7 +89,7 @@ class SettingsScreen extends StatelessWidget {
               onChanged(value);
             },
             activeColor: activeColor,
-          )
+          ),
         ],
       ),
     );

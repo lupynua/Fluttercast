@@ -28,9 +28,9 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
     super.initState();
     _weatherBloc = WeatherBloc(weatherRepository: widget.weatherRepository);
     _animationController = AnimationController(
-        duration: const Duration(milliseconds: 500), vsync: this);
+        duration: const Duration(milliseconds: 1000), vsync: this);
     _animation =
-        CurvedAnimation(parent: _animationController, curve: Curves.easeIn);
+        CurvedAnimation(parent: _animationController, curve: Curves.easeInOut);
 
     _fetchWeather().catchError((error) {
       _weatherBloc.add(ErrorEvent());
@@ -39,11 +39,10 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    Color primaryColor = AppStateContainer.of(context).theme.primaryColor;
-    Color primaryDarkColor =
-        AppStateContainer.of(context).theme.primaryColorDark;
-    Color accentColor = AppStateContainer.of(context).theme.accentColor;
-    Color buttonColor = AppStateContainer.of(context).theme.buttonColor;
+    var primaryColor = AppStateContainer.of(context).theme.primaryColor;
+    var primaryDarkColor = AppStateContainer.of(context).theme.primaryColorDark;
+    var accentColor = AppStateContainer.of(context).theme.accentColor;
+    var buttonColor = AppStateContainer.of(context).theme.buttonColor;
 
     return Scaffold(
       appBar: AppBar(
@@ -65,7 +64,11 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
             icon: Icon(
               Icons.settings,
               color: accentColor,
-            ), label: Text("Settings", style: TextStyle(color: accentColor, fontSize: 16),),
+            ),
+            label: Text(
+              "Settings",
+              style: TextStyle(color: accentColor, fontSize: 16),
+            ),
           ),
         ],
       ),
