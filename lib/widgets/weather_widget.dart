@@ -49,7 +49,7 @@ class WeatherWidget extends StatelessWidget {
             ),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                padding: const EdgeInsets.symmetric(horizontal: 18.0),
                 child: _buildIcon(
                     icon: IconHelper.getIconData(weatherData.weather.icon),
                     color: accentColor,
@@ -62,7 +62,7 @@ class WeatherWidget extends StatelessWidget {
                     height: 20,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 18.0),
                     child: _buildText(
                         text: tempCurrent, color: accentColor, size: 100),
                   ),
